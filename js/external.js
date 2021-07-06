@@ -15,13 +15,15 @@
 
 // prompt
 
-var currentSpeed = 65;
-var plannedSpeedMph = prompt("How fast do you want to go [to the hot dog water store] in mph");
-console.log(plannedSpeedMph);
-var distanceLeftInMiles = prompt("How many miles away is the hot dog water store?");
-var timeToDestinationAtCurrentSpeed = (distanceLeftInMiles / currentSpeed) * 60;
-var timeToDestinationAtPlannedSpeed = (distanceLeftInMiles / plannedSpeedMph) * 60;
-var timeGain = timeToDestinationAtCurrentSpeed - timeToDestinationAtPlannedSpeed;
-var minutesGained = Math.floor(timeGain);
-var secondsGained = Math.round((timeGain - minutesGained) * 60);
-console.log("If you drive at " + plannedSpeedMph + " mph, you will arrive at the hot dog water store " + minutesGained + " minutes & " + secondsGained + " seconds earlier.");
+// var currentSpeed = 65;
+// var plannedSpeedMph = prompt("How fast do you want to go [to the hot dog water store] in mph");
+// console.log(plannedSpeedMph);
+// var distanceLeftInMiles = prompt("How many miles away is the hot dog water store?");
+// var timeToDestinationAtCurrentSpeed = (distanceLeftInMiles / currentSpeed) * 60;
+// var timeToDestinationAtPlannedSpeed = (distanceLeftInMiles / plannedSpeedMph) * 60;
+// var timeGain = timeToDestinationAtCurrentSpeed - timeToDestinationAtPlannedSpeed;
+// var minutesGained = Math.floor(timeGain);
+// var secondsGained = Math.round((timeGain - minutesGained) * 60);
+// console.log("If you drive at " + plannedSpeedMph + " mph, you will arrive at the hot dog water store " + minutesGained + " minutes & " + secondsGained + " seconds earlier. GOTTA GO FAST!");
+
+//Exercise
