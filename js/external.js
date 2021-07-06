@@ -47,8 +47,8 @@ alert("It will be $" + ((parseInt(lilMerDays)+parseInt(brotherBearDays)+parseInt
 
 //Contracting
 alert("Contracting Problem")
-var amazonHours = prompt("How many days did you work at Amazon this week?");
-var googleHours = prompt("How many days did you work at Google this week?");
+var amazonHours = prompt("How many hours did you work at Amazon this week?");
+var googleHours = prompt("How many hours did you work at Google this week?");
 var facebookHours = prompt("How many hours did you work at Facebook this week?");
 
 alert("Your pay for this week will be $" + ((parseInt(amazonHours)*380)+(parseInt(googleHours)*400)+(parseInt(facebookHours)*350)) + " for all of your work.");
@@ -84,3 +84,27 @@ if (offerValid(numberOfItems,premiumMember,offerNotExpired)==true){
 }else{
     alert("Unfortunately your offer cannot be applied to this purchase.")
 }
+
+//Problem 4 even though you didn't ask us to do it
+
+// function goodPassword(password, username) {
+//
+//     if (username.length > 20 || password.indexOf(username) > -1){
+//         return false;
+//     }
+//     else if(username !== username.trim() || password !== password.trim()){
+//         return false;
+//     }
+//     else if (password.length <= 5) {
+//         return false;
+//     }
+//
+//     return true;
+// }
+// var username = prompt("Username:");
+// var password = prompt("Password:");
+// if (goodPassword(password,username)==true){
+//     alert("This Username and Password combination is valid.");
+// }else{
+//     alert("This Username and Password combination is invalid.");
+// }
