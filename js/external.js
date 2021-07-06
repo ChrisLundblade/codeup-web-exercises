@@ -16,7 +16,7 @@
 // prompt
 
 var currentSpeed = 65;
-var plannedSpeedMph = prompt("How fast do you want to [to the hot dog water store] go in mph");
+var plannedSpeedMph = prompt("How fast do you want to go [to the hot dog water store] in mph");
 console.log(plannedSpeedMph);
 var distanceLeftInMiles = prompt("How many miles away is the hot dog water store?");
 var timeToDestinationAtCurrentSpeed = (distanceLeftInMiles / currentSpeed) * 60;
