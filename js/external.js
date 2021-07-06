@@ -27,3 +27,5 @@
 // console.log("If you drive at " + plannedSpeedMph + " mph, you will arrive at the hot dog water store " + minutesGained + " minutes & " + secondsGained + " seconds earlier. GOTTA GO FAST!");
 
 //Exercise
+
+console.log("Hello from external JavaScript");
