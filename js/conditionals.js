@@ -157,14 +157,16 @@ function negativeOrPositive(inputNum){
         return inputNum + " is 0.";
     }
 }
- let wantToInputNumber = confirm("Wanna put in a number?");
-if (wantToInputNumber === true){
-    var numberToInput = prompt("Okay, put in a number.");
-    if(isNaN(parseFloat(numberToInput))){
-        alert("That's not a number!");
-    } else{
-        alert(oddOrEven(numberToInput));
-        alert(plusOneHundred(numberToInput))
-        alert(negativeOrPositive(numberToInput));
-    }
+function inputNumberProcessing(confirmation) {
+    if (confirmation === true) {
+            var numberToInput = prompt("Okay, put in a number.");
+            if (isNaN(parseFloat(numberToInput))) {
+                alert("That's not a number!");
+            } else {
+                alert(oddOrEven(numberToInput));
+                alert(plusOneHundred(numberToInput))
+                alert(negativeOrPositive(numberToInput));
+            }
+        }
 }
+inputNumberProcessing(confirm("Wanna put in a number?")); //calling the function that takes the number and runs it
