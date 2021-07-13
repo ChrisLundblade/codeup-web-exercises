@@ -136,6 +136,42 @@
  * Can you refactor your code to use functions?
  * HINT: The way we prompt for a value could be improved
  */
+// console.log(luckyNumber + " is " + oddOrEven(luckyNumber) +".");
+
+// function oddOrEven(inputNum){
+// if (inputNum % 2 === 0){
+//     return "even";
+// }
+// else {return "odd";}
+// }
+//
+// function plusOneHundred(inputNum){
+//     return parseFloat(inputNum)+100;
+// }
+// function negativeOrPositive(inputNum){
+//     if (inputNum > 0){
+//         return inputNum + " is a positive number.";
+//     }
+//     else if (inputNum < 0){
+//         return inputNum + " is a negative number.";
+//     } else if (inputNum === 0){
+//         return inputNum + " is 0.";
+//     }
+// }
+// function inputNumberProcessing(confirmation) {
+//     if (confirmation === true) {
+//             var numberToInput = prompt("Okay, put in a number.");
+//             if (isNaN(parseFloat(numberToInput))) {
+//                 alert("That's not a number!");
+//             } else {
+//                 alert(oddOrEven(numberToInput));
+//                 alert(plusOneHundred(numberToInput))
+//                 alert(negativeOrPositive(numberToInput));
+//             }
+//         }
+// }
+// inputNumberProcessing(confirm("Wanna put in a number?")); //calling the function that takes the number and runs it
+
 function oddOrEven(inputNum){
 if (inputNum % 2 === 0){
     return "even";
@@ -143,7 +179,6 @@ if (inputNum % 2 === 0){
 else {return "odd";}
 }
 
-// console.log(luckyNumber + " is " + oddOrEven(luckyNumber) +".");
 function plusOneHundred(inputNum){
     return parseFloat(inputNum)+100;
 }
@@ -157,16 +192,16 @@ function negativeOrPositive(inputNum){
         return inputNum + " is 0.";
     }
 }
-function inputNumberProcessing(confirmation) {
+function inputNumberProcessing(confirmation,odd,negPos,plusAHunnit) {
     if (confirmation === true) {
             var numberToInput = prompt("Okay, put in a number.");
             if (isNaN(parseFloat(numberToInput))) {
                 alert("That's not a number!");
             } else {
-                alert(oddOrEven(numberToInput));
-                alert(plusOneHundred(numberToInput))
-                alert(negativeOrPositive(numberToInput));
+                alert(odd(numberToInput));
+                alert(plusAHunnit(numberToInput))
+                alert(negPos(numberToInput));
             }
         }
 }
-inputNumberProcessing(confirm("Wanna put in a number?")); //calling the function that takes the number and runs it
+inputNumberProcessing(confirm("Wanna put in a number?"),oddOrEven,negativeOrPositive,plusOneHundred);
