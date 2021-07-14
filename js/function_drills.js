@@ -79,3 +79,55 @@ function isSpace(letter){
 function notZero(input){
     return input != 0;
 }
+function lowerCase(input){
+    return input.toLowerCase();
+}
+function double (num){
+    return parseFloat(num)*2;
+}
+function triple (num){
+    return parseFloat(num)*3;
+}
+function quadruple (num){
+    return parseFloat(num)*4;
+}
+function half (num){
+    return parseFloat(num)/2;
+}
+function subtract (a,b){
+    return parseFloat(a)-parseFloat(b);
+}
+function multiply (a,b){
+    return parseFloat(a)*parseFloat(b);
+}
+function divide (a,b){
+    return parseFloat(a)/parseFloat(b);
+}
+function remainder (a,b){
+    return parseFloat(a)%parseFloat(b);
+}
+function modulo (a,b){ //this is going to be doing the same thing as remainder
+    return parseFloat(a)%parseFloat(b);
+}
+function cube (n){
+    return (parseFloat(n)*parseFloat(n)*parseFloat(n));
+}
+function squareRoot(n){
+    return Math.sqrt(parseFloat(n));
+}
+function cubeRoot(n){
+    return Math.cbrt(parseFloat(n));
+}
+function inverSign(num){
+    if (typeof parseFloat(num)== NaN){
+        return false;
+    }else{
+     return (parseFloat(num)*-1);
+    }
+}
+function degreesToRadians(num){
+
+}
+function radiansToDegrees(num){
+
+}
