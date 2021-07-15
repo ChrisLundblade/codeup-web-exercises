@@ -2,7 +2,7 @@
 
 function showMultiplicationTable(input){
     for (let i =1; i<=10; i++){
-        console.log(input*i);
+        console.log(input + " x "+ i + " = " + (input*i));
     }
 }
 
@@ -19,18 +19,27 @@ function randomNumbersOddEven() {
     }
 }
 
+// function stringConcatLoop(){
+//         for (let i=1; i <=9; i++){
+//             let counter = 0;
+//             let string = "";
+//             //let newArray = [];
+//             while(counter <i){
+//                 string += i;
+//                 counter++;
+//             }
+//             //newArray.forEach(element => string += element);
+//             console.log(string);
+//         }
+// }
 function stringConcatLoop(){
-        for (let i=1; i <=9; i++){
-            let counter = 0;
-            let string = "";
-            //let newArray = [];
-            while(counter <i){
-                string += i;
-                counter++;
-            }
-            //newArray.forEach(element => string += element);
-            console.log(string);
+    for (let i=1; i <=9; i++){
+        let string = '';
+        for(let counter = 1; counter <=i;counter++){
+            string +=i;
         }
+        console.log(string);
+    }
 }
 
 function countDownByFive(){
