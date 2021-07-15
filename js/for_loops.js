@@ -10,7 +10,7 @@ function showMultiplicationTable(input){
 
 function randomNumbersOddEven() {
     for (let i = 1; i <= 20; i++) {
-        let newRand = Math.floor(Math.random() * 180) + 20;
+        let newRand = Math.floor(Math.random() * 181) + 20;
         if (newRand % 2 === 0) {
             console.log(newRand + " is even.");
         } else {
@@ -32,13 +32,30 @@ function randomNumbersOddEven() {
 //             console.log(string);
 //         }
 // }
+// function stringConcatLoop(){
+//     for (let i=1; i <=9; i++){
+//         let string = '';
+//         for(let counter = 1; counter <=i;counter++){
+//             string +=i;
+//         }
+//         console.log(string);
+//     }
+// }
+// function stringConcatLoop(){
+//     for (let i=1; i <=9; i++){
+//         let string = '';
+//         for(let counter = 1; counter <=i;counter++){
+//             string +=1;
+//         }
+//         console.log(parseFloat(string)*i);
+//     }
+// }
+
 function stringConcatLoop(){
+    let string = '';
     for (let i=1; i <=9; i++){
-        let string = '';
-        for(let counter = 1; counter <=i;counter++){
-            string +=i;
-        }
-        console.log(string);
+            string +=1;
+        console.log(parseFloat(string)*i);
     }
 }
 
