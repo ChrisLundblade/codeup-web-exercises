@@ -1,9 +1,10 @@
 'use strict';
 
-var counter = 2;
-while (counter <= 65536){
-    console.log(counter);
+var counter = 1;
+while (counter < 65536){
+
     counter*=2;
+    console.log(counter);
 }
 
 // This is how you get a random number between 50 and 100
