@@ -70,15 +70,19 @@ var person = {
      * > console.log(books[0].author.firstName) // "Douglas"
      * > console.log(books[0].author.lastName) // "Adams"
      */
-var booksArray = [
-        {title: "Infinite Jest",
-        author: {firstName:"David", lastName: "Foster Wallace"}},
-        {title: "The Brothers Karamazov",
-        author: {firstName: "Fyodor",  lastName: "Dostoevsky"}},
-        {title: "Debt: The First 5000 Years",
-        author:{firstName: "David", lastName: "Graeber"}},
-        {title: "The Screwtape Letters", author: {firstName: "Clive", lastName: "Lewis"}}
-    ]
+// var booksArray = [
+//         {title: "Infinite Jest",
+//         author: {firstName:"David", lastName: "Foster Wallace"}},
+//         {title: "The Brothers Karamazov",
+//         author: {firstName: "Fyodor",  lastName: "Dostoevsky"}},
+//         {title: "Debt: The First 5000 Years",
+//         author:{firstName: "David", lastName: "Graeber"}},
+//         {title: "The Screwtape Letters", author: {firstName: "Clive", lastName: "Lewis"}}
+//     ]
+
+// Here's the bonus version
+
+
     /**
      * TODO:
      * Loop through the books array and output the following information about
@@ -102,11 +106,11 @@ var booksArray = [
      *      ---
      *      ...
      */
-booksArray.forEach(function(book, index){
-    console.log("Book # " + (index+1));
-    console.log("Title: " + book.title);
-    console.log("Author: "+ book.author.firstName + " " + book.author.lastName);
-})
+// booksArray.forEach(function(book, index){
+//     console.log("Book # " + (index+1));
+//     console.log("Title: " + book.title);
+//     console.log("Author: "+ book.author.firstName + " " + book.author.lastName);
+// })
 
     /**
      * Bonus:
@@ -118,7 +122,29 @@ booksArray.forEach(function(book, index){
      *   outputs the information described above. Refactor your loop to use your
      *   `showBookInfo` function.
      */
-    // function createBook(title, authorFirstName, authorLastName){
-    //     return new Object
-    // }
+    function createBook(bookTitle, authorFirstName, authorLastName){
+        var book = { title: bookTitle,
+            author : {firstName: authorFirstName, lastName: authorLastName}
+        }
+        return book;
+    }
+    var booksArray = [];
+    booksArray.push(createBook("Infinite Jest", "David", "Foster Wallace"));
+
+    booksArray.push(createBook("The Brothers Karamazov","Fyodor","Dostoevsky"));
+
+    booksArray.push(createBook("Debt: The First 5000 Years", "David", "Graeber"));
+
+    booksArray.push(createBook("The Screwtape Letters", "Clive", "Lewis"));
+
+    function showBookInfo(book, index){
+        console.log("Book # " + (index+1));
+        console.log("Title: " + book.title);
+        console.log("Author: "+ book.author.firstName + " " + book.author.lastName);
+        index++;
+    }
+
+    booksArray.forEach(
+        showBookInfo
+    )
 })();
