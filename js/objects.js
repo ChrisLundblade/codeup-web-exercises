@@ -51,7 +51,7 @@ var person = {
     ];
     shoppers.forEach (function(shopper){
     if (shopper.amount < 200){
-        console.log(shopper.name + "is not receiving a discount and needs to spend $" + (200.01-shopper.amount).toFixed(2) + " more  to earn a discount.");
+        console.log(shopper.name + " is spending $" + shopper.amount +", not receiving a discount, and needs to spend $" + (200.01-shopper.amount).toFixed(2) + " more  to earn a discount.");
     } else {
         console.log(shopper.name + " is buying $" + shopper.amount + " of merchandise which is being discounted down to $" + (shopper.amount*0.88) + " saving $" + (shopper.amount*0.12));
     }
