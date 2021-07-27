@@ -19,7 +19,7 @@ body{
 
 .hero {
     position: relative;
-    height: 180vh;
+    /*height: 220vh;*/
     width: 100%;
     /*margin: 0;*/
     /*padding: 0;*/
@@ -47,4 +47,22 @@ li{
 table, td, tr {
     padding-left: 20px;
     font-size: 20px;
+}
+a:link{
+    color: midnightblue;
+}
+a:visited{
+    color: darkgreen;
+}
+a:hover{
+    color: #fdd96e;
+    text-shadow:0px 0px 30px #000000;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    -webkit-transition: all 0.2s ease-in;
+    transition: all 0.8s ease-in;
+    font-size: x-large;
+}
+a:active{
+    color: salmon;
 }
