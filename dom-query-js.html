@@ -7,6 +7,25 @@
 <body>
 
 <h1 id="main-header">Hello World!</h1>
+<table>
+    <tr>
+        <td>
+            <button id="btn1">Btn 1</button>
+        </td>
+        <td>
+            <button id="btn2">Btn 2</button>
+        </td>
+        <td>
+            <button id="btn3">Btn 3</button>
+        </td>
+        <td>
+            <button id="btn4">Btn 4</button>
+        </td>
+        <td>
+            <button id="btn5">Btn 5</button>
+        </td>
+    </tr>
+</table>
 <ul>
     <li data-dbid="1">Item 1</li>
     <li data-dbid="2">Item 2</li>
@@ -27,37 +46,91 @@
 
 <script>
     (function() {
+        var headerBtn =
         "use strict";
         // TODO: Uncomment next line and get the main header element by id
         var mainHeader = document.getElementById("main-header");
 
+
         // TODO: Set inner html of mainHeader to "JavaScript is Cool"
-        mainHeader.innerHTML = "JavaScript is Cool!!!!!!!1"
+
+        var headerListener = function (){
+            if(mainHeader.innerHTML !== "JavaScript is Cool!!!!!!!1"){
+                mainHeader.innerHTML = "JavaScript is Cool!!!!!!!1";
+            } else {
+                mainHeader.innerHTML = "Hello World!";
+            }
+
+        }
+        document.getElementById('btn1').addEventListener("click", headerListener);
+
         // TODO: Uncomment the next line and get the sub header element by id
         var subHeader = document.getElementById('sub-header');
 
         // TODO: Set the text color of subHeader to blue
-        subHeader.style.color = "blue";
+        // var subHeaderListener = function(){
+        //     subHeader.style.color = "blue";
+        // }
+        function subHeaderListener (){
+            if(subHeader.style.color != "blue"){
+                subHeader.style.color = "blue";
+            } else{
+                subHeader.style.color = "black";
+            }
+        }
+        document.getElementById('btn2').addEventListener("click", subHeaderListener)
+
         // TODO: Uncomment the next line and get all list items
         var listItems = document.getElementsByTagName("li");
 
         // TODO: Set text color on every other list item to grey
         // listItems[1].style.color = "grey";
         // listItems[3].style.color = "grey";
-        for (let i=0; i < listItems.length; i++){
-            if((i+1) % 2 == 0){
-                listItems[i].style.color = "grey";
+        function everyOtherLiListener(){
+
+            for (let i=0; i < listItems.length; i++){
+                if((i+1) % 2 == 0 && listItems[i].style.color !== "grey"){
+                    listItems[i].style.color = "grey";
+                } else if ((i+1) % 2 == 0 && listItems[i].style.color === "grey") {
+                    listItems[i].style.color = "black";
+                }
             }
         }
+        document.getElementById('btn3').addEventListener('click', everyOtherLiListener);
+
         // TODO: Set text color of li with dbid = 1 to blue
-        var idOne = document.querySelector("li[data-dbid='1']");
-        idOne.style.color = "blue";
-        document.querySelector("li[data-dbid='1']").style.color;
+        //var idOne = document.querySelector("li[data-dbid='1']");
+
+        function dbidOneListener(){
+            // idOne.style.color = "blue";
+            if(document.querySelector("li[data-dbid='1']").style.color !== 'blue'){
+                document.querySelector("li[data-dbid='1']").style.color = 'blue';
+            } else {
+                document.querySelector("li[data-dbid='1']").style.color = 'black';
+            }
+        }
+
+        document.getElementById("btn4").addEventListener("click", dbidOneListener)
+
         // TODO: Uncomment the next line and get all elements with class name sub-paragraph
         var subParagraphs = document.getElementsByClassName("sub-paragraph");
 
         // TODO: Change the text in the first sub paragraph to "Mission Accomplished!"
-        subParagraphs[0].innerText = "Mission Accomplished!";
+        function subParagraphClassListener(){
+            if(subParagraphs[0].innerText !== "Mission Accomplished!"){
+                subParagraphs[0].innerText = "Mission Accomplished!";
+            } else {
+                subParagraphs[0].innerText = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do" +
+                        "eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim" +
+                        "ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut" +
+                        "aliquip ex ea commodo consequat. Duis aute irure dolor in" +
+                        "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla" +
+                        "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in" +
+                        "culpa qui officia deserunt mollit anim id est laborum.";
+            }
+        }
+
+        document.getElementById('btn5').addEventListener("click", subParagraphClassListener);
     })();
 </script>
 </body>
