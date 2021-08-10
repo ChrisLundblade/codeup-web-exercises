@@ -24,6 +24,9 @@
         <td>
             <button id="btn5">Btn 5</button>
         </td>
+        <td>
+            <button id="inception">Incept</button>
+        </td>
     </tr>
 </table>
 <ul>
@@ -131,6 +134,12 @@
         }
 
         document.getElementById('btn5').addEventListener("click", subParagraphClassListener);
+
+        function inceptionButtonListener(){
+            let inception = new Audio('audio/inception.mp3');
+            inception.play();
+        }
+        document.getElementById('inception').addEventListener('click', inceptionButtonListener);
     })();
 </script>
 </body>
