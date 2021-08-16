@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery Exercises</title>
+</head>
+<body>
+  <h1 class="header">This is a website, I guess</h1>
+  <div class="content codeup">
+    <p id="list-title">My best-movies list: </p>
+    <ul>
+      <li id="list-item">
+        Hot Rod
+      </li>
+      <li id="codeup">
+        Hot Fuzz
+      </li>
+      <li id="lotr">
+        The Lord of The Rings films (extended editions, of course).
+      </li>
+    </ul>
+    <p id="second-title">My best-movies list: </p>
+    <ul>
+      <li>
+        Hot Rod
+      </li>
+      <li>
+        Hot Fuzz
+      </li>
+      <li class="codeup">
+        The Lord of The Rings films (extended editions, of course).
+      </li>
+    </ul>
+  </div>
+  <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function() {
+      "use strict";
+      // alert("DOM Loaded. Let's party");
+      // alert($("#list-title").html());
+      // alert($("#lotr").html());
+      //alert($('#list-item').html()); //picking an id that 2 elements share gives just the content of the 1st.
+
+      //class selectors part
+      // $(".codeup").css("border", "1px solid red");
+
+      //Element selectors part
+      $("li").css("font-size", "20px");
+      $("h1, p, li").css("background", "yellow");
+      $("h1").each(function () {
+          alert($("h1").html());
+        });
+    });
+    </script>
+</body>
+</html>
