@@ -47,6 +47,30 @@
 	<dt>What is the most-visited national park?</dt>
 	<dd class="invisible">In 2020, the most-visited national park was Great Smoky Mountains National Park.</dd>
 </dl>
+<ul>
+	<h3>The Park</h3>
+	<li>Fact</li>
+	<li>Fact</li>
+	<li>Fact</li>
+	<li>Fact</li>
+</ul>
+<ul>
+	<h3>The Other Park</h3>
+	<li>Fact</li>
+	<li>Fact</li>
+	<li>Fact</li>
+	<li>Fact</li>
+</ul>
+
+<ul>
+	<h3>Yet Other Park</h3>
+	<li>Fact</li>
+	<li>Fact</li>
+	<li>Fact</li>
+	<li>Fact</li>
+</ul>
+<button>last li</button>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script>
@@ -57,13 +81,30 @@
 	$("dt").on("click", function(){
 	    $(this).toggleClass("cornsilkBG");
 	});
-    // $("dt").on("click", function(){
-	// 		if($(this).css("background-color") !== "cornsilk"){
-	// 		    $(this).css("background-color", "cornsilk");
-	// 		} else {
-    //             $(this).css("background-color", "white");
-	// 		}
-	// 	});
+    $("dt").on("click", function(){
+		if($(this).css("background-color") !== "rgb(255, 248, 220)"){
+
+			$(this).css("background-color", "rgb(255, 248, 220)");
+		} else {
+			$(this).css("background-color", "white");
+		}
+		});
+	$("button").click(function (){
+	   	$("ul").each(function (){
+        	$(this).children().last().css("background-color","yellow");
+		})
+
+        // $("ul").prev().children().last().css("background-color","yellow");
+        // $("ul").first().children().last().css("background-color","yellow");
+	});
+	$('h3').on("click",function (){
+		$(this).siblings().css("font-weight", "bold");
+	})
+	$("li").click(function (){
+	    //both work
+	    //$(this).parent().children("li").first().css("color", "blue");
+        $(this).siblings().first().next().css("color", "blue");
+	});
 
 </script>
 </body>
