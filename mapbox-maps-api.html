@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+	<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
+	<script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+	<style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+	</style>
+</head>
+<body>
+<div id='map'></div>
+
+
+<script src="js/keys.js"></script>
+<!-- Mapbox JS -->
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+<!-- Mapbox Geocoder Util Methods -->
+<script src="js/mapbox-geocoder-utils.js"></script>
+<!-- Custom JS -->
+<script>
+    mapboxgl.accessToken = MAPBOX_API_TOKEN;
+
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v9',
+        zoom: 10,
+        center: [-98.489598, 29.426808]
+    });
+	//Initially I did this without getting the coordinates and generating the markers and popups inside of
+	//the for each loop.
+
+
+    // var bestBrisketInSaPopup = new mapboxgl.Popup({className: 'my-class'})
+    //     .setHTML("<h1>2M Smokehouse, San Antonio, TX</h1><p>This is the only place I know of in SA where a proper brisket can be had. It is beautiful and worth the drive.</p>");
+    // var bestBrisketInSaMarker = new mapboxgl.Marker({
+    //     color: "#007bff",
+    //     draggable: false
+    // }).setLngLat([-98.406075, 29.382409]);
+	//
+    // var hotChickenPopup = new mapboxgl.Popup({className: 'my-class'})
+    //     .setHTML("<h1>Hattie B's Hot Chicken, Nashville, TN</h1><p>This may be a chain, but it <em>S L A P S</em>.Tender and spicy chicken.</p><p> The dark meat at medium-heat with double fries is my go-to.</p><p>Also, this is in Nashville,TN, so I'm kinda bending the rules here but I don't care.</p>");
+    // var hotChicken = new mapboxgl.Marker({
+    //     color: "#007bff",
+    //     draggable: false
+    // }).setLngLat([-86.777704, 36.128871])
+    //     // .addTo(map)
+    //     // .setPopup(hotChickenPopup);
+    // var parkwayBakeryPopup = new mapboxgl.Popup({className: 'my-class'})
+        // .setHTML("<h1>Parkway Bakery & Tavern, New Orleans, LA</h1><p>This place has incredible Po-Boys. My go-to is the Gator-sausage po-boy.</p><p>New Orleans has tons of other incredible restaurants too though. This is just one that came to mind.</p>");
+    // var parkwayBakeryMarker = new mapboxgl.Marker({
+    //     color: "#007bff",
+    //     draggable: false
+    // }).setLngLat([-90.090281, 29.973661])
+        // .addTo(map)
+        // .setPopup(parkwayBakeryPopup);
+
+    var restaurantsArray = [{name: "2M Smokehouse", cityState: "San Antonio, TX", address:"2731 S WW White Rd, San Antonio, TX 78222" , time:5000, zoom: 15, message: "<p>This is the only place I know of in SA where a proper brisket can be had. It is beautiful and worth the drive.</p>"},
+		{name: "Hattie B's Hot Chicken", cityState: "Nashville, TN", address: "2222 8th Ave S, Nashville, TN 37204", time: 13000, zoom:12, message:"<p>This may be a chain, but it <em>S L A P S</em>.Tender and spicy chicken.</p><p> The dark meat at medium-heat with double fries is my go-to.</p><p>Also, this is in Nashville,TN, so I'm kinda bending the rules here but I don't care.</p>"},
+		{name: "Parkway Bakery and Tavern", cityState:"New Orleans, LA", address:"538 Hagan Ave, New Orleans, LA 70119" , time: 20000, zoom:13, message: "<p>This place has incredible Po-Boys. My go-to is the Gator-sausage po-boy.</p><p>New Orleans has tons of other incredible restaurants too though. This is just one that came to mind.</p>"}];
+
+    restaurantsArray.forEach(function (restaurant){
+        geocode(restaurant.address, MAPBOX_API_TOKEN).then(function(result) {
+            setTimeout(function (){
+                let popup = new mapboxgl.Popup({className: 'my-class'})
+                    .setHTML("<h1>" + restaurant.name + ", " + restaurant.cityState + "</h1>"+ restaurant.message);
+                var marker = new mapboxgl.Marker({
+                    color: "#007bff",
+                    draggable: false
+                }).setLngLat(result);
+                marker.setPopup(popup);
+                marker.addTo(map);
+                map.setZoom(restaurant.zoom);
+                map.setCenter({lng: result[0], lat: result[1]});
+
+            },restaurant.time);
+        });
+	});
+
+    // setTimeout(function (){
+    //     map.setZoom(15);
+    //     map.setCenter({lng: -98.406075, lat: 29.382409});
+    //     var bestBrisketInSaMarker = new mapboxgl.Marker({
+    //         color: "#007bff",
+    //         draggable: false
+    //     }).setLngLat([-98.406075, 29.382409])
+    //         .addTo(map)
+    //         .setPopup(bestBrisketInSaPopup);
+	// },5000);
+    // setTimeout(function (){
+    //     map.setZoom(13);
+    //     map.setCenter({lng: -86.777704, lat: 36.128871});
+    //     var hotChicken = new mapboxgl.Marker({
+    //         color: "#007bff",
+    //         draggable: false
+    //     }).setLngLat([-86.777704, 36.128871])
+    //         .addTo(map)
+    //         .setPopup(hotChickenPopup);
+    // },15000);
+
+
+    // the  geocode method from mapbox-geocoder-utils.js
+	//I used these to get the coordinates I used before getting them as a part of the forEach loop
+    // geocode("2731 S WW White Rd, San Antonio, TX 78222", MAPBOX_API_TOKEN).then(function(result) {
+    //     console.log(result);
+    // });
+    // geocode("2222 8th Ave S, Nashville, TN 37204", MAPBOX_API_TOKEN).then(function(result) {
+    //     console.log(result);
+    // });
+    // geocode("538 Hagan Ave, New Orleans, LA 70119", MAPBOX_API_TOKEN).then(function(result) {
+    //     console.log(result);
+    // });
+
+</script>
+</body>
+</html>
