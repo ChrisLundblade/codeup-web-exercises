@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Mapbox Mini Exercise 2</title>
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+	<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
+	<script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+	<style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<script src="js/keys.js"></script>
+	<script>
+        mapboxgl.accessToken = MAPBOX_API_TOKEN;
+        const map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: 'mapbox://styles/mapbox/streets-v11', // style URL
+            center: [-77.04994260972752, 38.889256512600355], // starting position [lng, lat]
+            zoom: 17.143223823403396 // starting zoom
+        });
+        const markerHeight = 50;
+        const markerRadius = 10;
+        const linearOffset = 25;
+        const popupOffsets = {
+            'top': [0, 0],
+            'top-left': [0, 0],
+            'top-right': [0, 0],
+            'bottom': [0, -markerHeight],
+            'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+            'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+            'left': [markerRadius, (markerHeight - markerRadius) * -1],
+            'right': [-markerRadius, (markerHeight - markerRadius) * -1]
+        };
+
+        var popup = new mapboxgl.Popup({offset: popupOffsets, className: 'my-class'})
+            .setHTML("<h1>Lincoln Memorial</h1>");
+        var marker = new mapboxgl.Marker({
+            color: "#FFFFFF",
+            draggable: true
+        }).setLngLat([-77.050165, 38.8891])
+            .addTo(map)
+			.setPopup(popup);
+
+        marker.on('dragend',function (){
+           popup.setHTML("<h1>"+ marker.getLngLat() +"</h1>");
+
+		});
+
+
+	</script>
+</body>
+</html>
