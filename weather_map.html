@@ -9,7 +9,7 @@
 	<script src="js/keys.js"></script>
 	<style>
         body { margin: 0; padding: 0; }
-        #map { position: absolute; width: 100%; height: 50rem; }
+        #map { position: absolute; width: 100%; height: 40rem; }
 		#top-bar{
 			display: flex;
 			align-items: center;
@@ -27,10 +27,41 @@
 			height: 3rem;
 			padding-left: 1rem;
 		}
+		#five-day-weather-card-box{
+			height: 15rem;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+		}
+		img{
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		.weather-card{
+			/*display: flex;*/
+			/*flex-direction: column;*/
+			/*!*justify-content: space-around;*!*/
+			/*align-items: center;*/
+			width: 10rem;
+			height: 90%;
+		}
+		.date{
+
+		}
+		.temp{
+
+		}
+		.weather-icon{
+			margin: auto;
+		}
+		.weather{
+
+		}
 	</style>
 </head>
 <body>
-	<header id="top-bar">Find out about the weather or something</header>
+	<header id="top-bar">Weather App</header>
 	<div id="search-container">
 		Place
 		<form>
@@ -66,11 +97,76 @@
             units: 'imperial'
         }).done(function(data) {
             console.log(data);
+            var html = '';
+            for(let i =0; i < 5; i++){
+                let currentHtml = $('#five-day-weather-card-box').html();
+                //console.log("looping" + i + " " +currentHtml);
+                html += '<div class="weather-card">';
+                let date = new Date(data.daily[i].dt * 1000);
+                //adds date div
+                html += '<div class="date">' + (date.getFullYear() + "-"+ (date.getMonth()+1)+ '-' +date.getDate()) + '</div>'
+                //adds temperature div
+                html += '<div class="temp">' + (data.daily[i].temp.min + '/' + data.daily[i].temp.max) + ' Fahrenheit</div>'
+                //TODO: Get weather image in the weather div
+                //Adding weather description
+                html += '<div class="weather-icon">' +'<img src="img/'+(data.daily[i].weather[0].icon) +'.png"  width="40" height="40" alt=""></div>'+'<div class="weather">' + 'Weather: ' + (data.daily[i].weather[0].description) + '</div>';
+                //adds humidity div
+                html += '<div class="humidity">Humidity: ' + (data.daily[i].humidity) + '</div>';
+                //add wind
+                html += '<div class="wind">Wind: ' + data.daily[i].wind_speed + 'mph '
+                    + windCardinalDirection(data.daily[i].wind_deg) + '</div>';
+                //add pressure
+                html += '<div class="pressure">Pressure: ' + (data.daily[i].humidity) + ' millibars</div>';
+                //close dayCard div
+                html += '</div>';
+            }
+            $('#five-day-weather-card-box').html(html);
+
         }).fail(function(error) {
             console.log(error);
         });
 	});
 	//San Antonio -98.4951 , 29.4246
+    // This function takes a number between 0 and 360 and returns a
+    // wind direction abbreviation. the MapBox API gives us a "wind degrees" datum
+    // this takes the "wind degrees" and converts it into a familiar abbreviation
+    function windCardinalDirection(degrees){
+        let cardinalDirection = '';
+        if ((degrees > 348.75 && degrees <= 360) || (degrees >=0 && degrees <= 11.25)){
+            cardinalDirection = "N";
+        } else if (degrees > 11.25 && degrees  <= 33.75) {
+            cardinalDirection = "NNE";
+        } else if (degrees > 33.75 && degrees <= 56.25) {
+            cardinalDirection = "NE";
+        } else if (degrees > 56.25 && degrees <= 78.75) {
+            cardinalDirection = "ENE";
+        } else if (degrees > 78.75 && degrees <= 101.25) {
+            cardinalDirection = "E";
+        } else if (degrees > 101.25 && degrees <= 123.75) {
+            cardinalDirection = "ESE";
+        } else if (degrees > 123.75 && degrees <= 146.25) {
+            cardinalDirection = "SE";
+        } else if (degrees > 146.25 && degrees <= 168.75) {
+            cardinalDirection = "SSE";
+        } else if (degrees > 168.75 && degrees <= 191.25) {
+            cardinalDirection = "S";
+        } else  if (degrees > 191.25 && degrees <= 213.75) {
+            cardinalDirection = "SSW";
+        } else if (degrees > 213.75 && degrees <= 236.25)  {
+            cardinalDirection = "SW";
+        } else if (degrees > 236.25 && degrees <= 258.75) {
+            cardinalDirection = "WSW";
+        } else if (degrees > 258.75 && degrees <= 281.25) {
+            cardinalDirection = "W";
+        } else if (degrees > 281.25 && degrees <= 303.75) {
+            cardinalDirection = "WNW";
+        } else if (degrees > 303.75 && degrees <= 326.25) {
+            cardinalDirection = "NW";
+        } else if (degrees > 326.75 && degrees <= 348.75) {
+            cardinalDirection = "NNW";
+        }
+        return cardinalDirection;
+    }
 	$('#location-search').on('click', function (e){
 	    e.preventDefault();
         geocode(($('#user-location-input').val()), MAPBOX_API_TOKEN).then(function (result){
@@ -82,6 +178,48 @@
                 units: 'imperial'
             }).done(function(data) {
                 console.log(data);
+                var html = '';
+                for(let i =0; i < 5; i++){
+                    let currentHtml = $('#five-day-weather-card-box').html();
+                    //console.log("looping" + i + " " +currentHtml);
+                    html += '<div class="weather-card">';
+                    let date = new Date(data.daily[i].dt * 1000);
+
+
+                    //adds date div
+                    html += '<div class="date">' + (date.getFullYear() + "-"+ (date.getMonth()+1)+ '-' +date.getDate()) + '</div>'
+                    //adds temperature div
+                    html += '<div class="temp">' + (data.daily[i].temp.min + '/' + data.daily[i].temp.max) + ' Fahrenheit</div>'
+					//TODO: Get weather image in the weather div
+					//Adding weather description
+                    html += '<div class="weather">' +'<img src="img/'+(data.daily[i].weather[0].icon) +'.png"  width="40" height="40" alt=""><br>' + 'Weather: ' + (data.daily[i].weather[0].description) + '</div>';
+
+                    //adds humidity div
+                    html += '<div class="humidity">Humidity: ' + (data.daily[i].humidity) + '</div>';
+
+                    //add wind
+					html += '<div class="wind">Wind: ' + data.daily[i].wind_speed + 'mph '
+						+ windCardinalDirection(data.daily[i].wind_deg) + '</div>';
+					//add pressure
+                    html += '<div class="pressure">Pressure: ' + (data.daily[i].humidity) + ' millibars</div>';
+					//close dayCard div
+                    html += '</div>';
+
+                    //$('#five-day-weather-card-box').eq(i).html(currentHtml + '' + html);
+                    // <div className="weather-card">
+                    //     <div className="date"></div>
+                    //     <div className="temp">Temp High/Low</div>
+                    //     <div className="other-weather-data">Condition Description</div>
+                    //     <div className="other-weather-data">Humidity</div>
+                    //     <div className="other-weather-data">Wind</div>
+                    //     <div className="other-weather-data">Pressure</div>
+                    // </div>
+                    // $('#five-day-weather-card-box').eq(i).children().eq(1).text(data.daily[i].temp.min + '/' + data.daily[i].temp.max);
+					// document.querySelector('#five-day-weather-card-box')
+				}
+                $('#five-day-weather-card-box').html(html);
+                //TODO: Populate Cards with data
+
             }).fail(function(error) {
                 console.log(error);
             });
