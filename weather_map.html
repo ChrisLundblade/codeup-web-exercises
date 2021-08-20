@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Open Weather</title>
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+	<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
+	<script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+	<script src="js/keys.js"></script>
+	<style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; width: 100%; height: 50rem; }
+		#top-bar{
+			display: flex;
+			align-items: center;
+			background-color: dodgerblue;
+			color: white;
+			font-family: sans-serif;
+			font-size: 2rem;
+			height: 3rem;
+			padding-left: 1rem;
+		}
+		#search-container{
+			display: flex;
+			justify-content: start;
+			align-items: center;
+			height: 3rem;
+			padding-left: 1rem;
+		}
+	</style>
+</head>
+<body>
+	<header id="top-bar">Find out about the weather or something</header>
+	<div id="search-container">
+		Place
+		<form>
+			<input type="text" id="user-location-input">
+			<button id="location-search">Find</button>
+		</form>
+	</div>
+	<div id="five-day-weather-card-box">
+
+	</div>
+	<div id="map"></div>
+
+<!-- Mapbox JS -->
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+<!-- Mapbox Geocoder Util Methods -->
+<script src="js/mapbox-geocoder-utils.js"></script>
+<script src="js/jquery-3.6.0.min.js"></script>
+<script>
+    mapboxgl.accessToken = MAPBOX_API_TOKEN;
+	//declaring map
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v9',
+        zoom: 10
+    });
+
+    geocode("San Antonio, Texas", MAPBOX_API_TOKEN).then(function (result){
+        map.setCenter({lng: result[0], lat: result[1]});
+        $.get('https://api.openweathermap.org/data/2.5/onecall', {
+            appid: OPEN_WEATHER_APP_ID,
+            lat: result[1],
+            lon: result[0],
+            units: 'imperial'
+        }).done(function(data) {
+            console.log(data);
+        }).fail(function(error) {
+            console.log(error);
+        });
+	});
+	//San Antonio -98.4951 , 29.4246
+	$('#location-search').on('click', function (e){
+	    e.preventDefault();
+        geocode(($('#user-location-input').val()), MAPBOX_API_TOKEN).then(function (result){
+            map.setCenter({lng: result[0], lat: result[1]});
+            $.get('https://api.openweathermap.org/data/2.5/onecall', {
+                appid: OPEN_WEATHER_APP_ID,
+                lat: result[1],
+                lon: result[0],
+                units: 'imperial'
+            }).done(function(data) {
+                console.log(data);
+            }).fail(function(error) {
+                console.log(error);
+            });
+        });
+	});
+
+</script>
+
+</body>
+</html>
