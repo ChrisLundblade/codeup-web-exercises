@@ -39,14 +39,20 @@
 			margin-right: auto;
 		}
 		.weather-card{
-			/*display: flex;*/
-			/*flex-direction: column;*/
-			/*!*justify-content: space-around;*!*/
-			/*align-items: center;*/
+
 			width: 10rem;
 			height: 90%;
+            border: 1px solid lightgrey;
+			border-radius: 1rem;
 		}
 		.date{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-color: lightgray;
+			border-top-left-radius: 1rem;
+			border-top-right-radius: 1rem;
+			height: 2rem;
 
 		}
 		.temp{
@@ -80,20 +86,26 @@
 <script src="js/mapbox-geocoder-utils.js"></script>
 <script src="js/jquery-3.6.0.min.js"></script>
 <script>
-    mapboxgl.accessToken = MAPBOX_API_TOKEN;
-	//declaring map
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v9',
-        zoom: 10
-    });
-
-    geocode("San Antonio, Texas", MAPBOX_API_TOKEN).then(function (result){
-        map.setCenter({lng: result[0], lat: result[1]});
+	//code to handle crazy longitude values
+	function longitudeCorrection(lon){
+        if(lon > 180){
+            lon = ((lon * -1)+(2*(lon%180)));
+            console.log("corrected longitude: "+lon);
+            return lon;
+        } else if(lon < -180){
+            lon = ((lon *-1)+(2*(lon%180)));
+            console.log("corrected longitude: " + lon);
+            return lon;
+        }
+        return lon;
+	}
+    function getAndDisplayWeatherData(longitude, latitude){
+        map.setCenter({lng: longitude, lat: latitude});
+        longitude = longitudeCorrection(longitude);
         $.get('https://api.openweathermap.org/data/2.5/onecall', {
             appid: OPEN_WEATHER_APP_ID,
-            lat: result[1],
-            lon: result[0],
+            lat: latitude,
+            lon: longitude,
             units: 'imperial'
         }).done(function(data) {
             console.log(data);
@@ -103,13 +115,14 @@
                 //console.log("looping" + i + " " +currentHtml);
                 html += '<div class="weather-card">';
                 let date = new Date(data.daily[i].dt * 1000);
+
                 //adds date div
                 html += '<div class="date">' + (date.getFullYear() + "-"+ (date.getMonth()+1)+ '-' +date.getDate()) + '</div>'
                 //adds temperature div
                 html += '<div class="temp">' + (data.daily[i].temp.min + '/' + data.daily[i].temp.max) + ' Fahrenheit</div>'
                 //TODO: Get weather image in the weather div
                 //Adding weather description
-                html += '<div class="weather-icon">' +'<img src="img/'+(data.daily[i].weather[0].icon) +'.png"  width="40" height="40" alt=""></div>'+'<div class="weather">' + 'Weather: ' + (data.daily[i].weather[0].description) + '</div>';
+                html += '<div class="weather">' +'<img src="img/'+(data.daily[i].weather[0].icon) +'.png"  width="40" height="40" alt=""><br>' + 'Weather: ' + (data.daily[i].weather[0].description) + '</div>';
                 //adds humidity div
                 html += '<div class="humidity">Humidity: ' + (data.daily[i].humidity) + '</div>';
                 //add wind
@@ -119,12 +132,77 @@
                 html += '<div class="pressure">Pressure: ' + (data.daily[i].humidity) + ' millibars</div>';
                 //close dayCard div
                 html += '</div>';
+
             }
             $('#five-day-weather-card-box').html(html);
+            //TODO: Populate Cards with data
 
         }).fail(function(error) {
             console.log(error);
         });
+    }
+    mapboxgl.accessToken = MAPBOX_API_TOKEN;
+	//declaring map
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v9',
+        zoom: 10
+    });
+    //declared marker so there's just one
+    var marker = new mapboxgl.Marker({
+        color: "#007bff",
+        draggable: true
+    })
+    map.on('click', function (e){
+        //console.log(e)
+        marker.setLngLat([e.lngLat.lng, e.lngLat.lat]);
+        marker.addTo(map);
+		getAndDisplayWeatherData(e.lngLat.lng, e.lngLat.lat);
+	});
+    marker.on('dragend',function (e){
+        console.log(e.target._lngLat);
+        getAndDisplayWeatherData(e.target._lngLat.lng, e.target._lngLat.lat);
+	});
+
+		//This whole block just sets it to start out over San Antonio
+    geocode("San Antonio, Texas", MAPBOX_API_TOKEN).then(function (result){
+        // map.setCenter({lng: result[0], lat: result[1]});
+        getAndDisplayWeatherData(result[0],result[1]);
+        // $.get('https://api.openweathermap.org/data/2.5/onecall', {
+        //     appid: OPEN_WEATHER_APP_ID,
+        //     lat: result[1],
+        //     lon: result[0],
+        //     units: 'imperial'
+        // }).done(function(data) {
+        //     console.log(data);
+        //     var html = '';
+        //     for(let i =0; i < 5; i++){
+        //         let currentHtml = $('#five-day-weather-card-box').html();
+        //         //console.log("looping" + i + " " +currentHtml);
+        //         html += '<div class="weather-card">';
+        //         let date = new Date(data.daily[i].dt * 1000);
+        //         //adds date div
+        //         html += '<div class="date">' + (date.getFullYear() + "-"+ (date.getMonth()+1)+ '-' +date.getDate()) + '</div>'
+        //         //adds temperature div
+        //         html += '<div class="temp">' + (data.daily[i].temp.min + '/' + data.daily[i].temp.max) + ' Fahrenheit</div>'
+        //         //TODO: Get weather image in the weather div
+        //         //Adding weather description
+        //         html += '<div class="weather-icon">' +'<img src="img/'+(data.daily[i].weather[0].icon) +'.png"  width="40" height="40" alt=""></div>'+'<div class="weather">' + 'Weather: ' + (data.daily[i].weather[0].description) + '</div>';
+        //         //adds humidity div
+        //         html += '<div class="humidity">Humidity: ' + (data.daily[i].humidity) + '</div>';
+        //         //add wind
+        //         html += '<div class="wind">Wind: ' + data.daily[i].wind_speed + 'mph '
+        //             + windCardinalDirection(data.daily[i].wind_deg) + '</div>';
+        //         //add pressure
+        //         html += '<div class="pressure">Pressure: ' + (data.daily[i].humidity) + ' millibars</div>';
+        //         //close dayCard div
+        //         html += '</div>';
+        //     }
+        //     $('#five-day-weather-card-box').html(html);
+		//
+        // }).fail(function(error) {
+        //     console.log(error);
+        // });
 	});
 	//San Antonio -98.4951 , 29.4246
     // This function takes a number between 0 and 360 and returns a
@@ -167,62 +245,67 @@
         }
         return cardinalDirection;
     }
+
+    // function returnCorrectLongitude(longitude){
+    //     if (longitude < -180) {
+    //         let difference = Math.abs(longitude + 180);
+    //         longitude = 180 - difference;
+    //     }
+    //     if (longitude > 180) {
+    //         let difference = longitude - 180;
+    //         longitude = -180 + difference;
+    //     }
+    //     return longitude;
+    // }
+    // if (longitude>180 || longitude<-180){
+    //     longitude = returnCorrectLongitude(longitude);
+    // }
+
 	$('#location-search').on('click', function (e){
 	    e.preventDefault();
         geocode(($('#user-location-input').val()), MAPBOX_API_TOKEN).then(function (result){
-            map.setCenter({lng: result[0], lat: result[1]});
-            $.get('https://api.openweathermap.org/data/2.5/onecall', {
-                appid: OPEN_WEATHER_APP_ID,
-                lat: result[1],
-                lon: result[0],
-                units: 'imperial'
-            }).done(function(data) {
-                console.log(data);
-                var html = '';
-                for(let i =0; i < 5; i++){
-                    let currentHtml = $('#five-day-weather-card-box').html();
-                    //console.log("looping" + i + " " +currentHtml);
-                    html += '<div class="weather-card">';
-                    let date = new Date(data.daily[i].dt * 1000);
-
-
-                    //adds date div
-                    html += '<div class="date">' + (date.getFullYear() + "-"+ (date.getMonth()+1)+ '-' +date.getDate()) + '</div>'
-                    //adds temperature div
-                    html += '<div class="temp">' + (data.daily[i].temp.min + '/' + data.daily[i].temp.max) + ' Fahrenheit</div>'
-					//TODO: Get weather image in the weather div
-					//Adding weather description
-                    html += '<div class="weather">' +'<img src="img/'+(data.daily[i].weather[0].icon) +'.png"  width="40" height="40" alt=""><br>' + 'Weather: ' + (data.daily[i].weather[0].description) + '</div>';
-
-                    //adds humidity div
-                    html += '<div class="humidity">Humidity: ' + (data.daily[i].humidity) + '</div>';
-
-                    //add wind
-					html += '<div class="wind">Wind: ' + data.daily[i].wind_speed + 'mph '
-						+ windCardinalDirection(data.daily[i].wind_deg) + '</div>';
-					//add pressure
-                    html += '<div class="pressure">Pressure: ' + (data.daily[i].humidity) + ' millibars</div>';
-					//close dayCard div
-                    html += '</div>';
-
-                    //$('#five-day-weather-card-box').eq(i).html(currentHtml + '' + html);
-                    // <div className="weather-card">
-                    //     <div className="date"></div>
-                    //     <div className="temp">Temp High/Low</div>
-                    //     <div className="other-weather-data">Condition Description</div>
-                    //     <div className="other-weather-data">Humidity</div>
-                    //     <div className="other-weather-data">Wind</div>
-                    //     <div className="other-weather-data">Pressure</div>
-                    // </div>
-                    // $('#five-day-weather-card-box').eq(i).children().eq(1).text(data.daily[i].temp.min + '/' + data.daily[i].temp.max);
-					// document.querySelector('#five-day-weather-card-box')
-				}
-                $('#five-day-weather-card-box').html(html);
-                //TODO: Populate Cards with data
-
-            }).fail(function(error) {
-                console.log(error);
-            });
+            getAndDisplayWeatherData(result[0],result[1]);
+            // map.setCenter({lng: result[0], lat: result[1]});
+            // $.get('https://api.openweathermap.org/data/2.5/onecall', {
+            //     appid: OPEN_WEATHER_APP_ID,
+            //     lat: result[1],
+            //     lon: result[0],
+            //     units: 'imperial'
+            // }).done(function(data) {
+            //     console.log(data);
+            //     var html = '';
+            //     for(let i =0; i < 5; i++){
+            //         let currentHtml = $('#five-day-weather-card-box').html();
+            //         //console.log("looping" + i + " " +currentHtml);
+            //         html += '<div class="weather-card">';
+            //         let date = new Date(data.daily[i].dt * 1000);
+			//
+            //         //adds date div
+            //         html += '<div class="date">' + (date.getFullYear() + "-"+ (date.getMonth()+1)+ '-' +date.getDate()) + '</div>'
+            //         //adds temperature div
+            //         html += '<div class="temp">' + (data.daily[i].temp.min + '/' + data.daily[i].temp.max) + ' Fahrenheit</div>'
+			// 		//TODO: Get weather image in the weather div
+			// 		//Adding weather description
+            //         html += '<div class="weather">' +'<img src="img/'+(data.daily[i].weather[0].icon) +'.png"  width="40" height="40" alt=""><br>' + 'Weather: ' + (data.daily[i].weather[0].description) + '</div>';
+			//
+            //         //adds humidity div
+            //         html += '<div class="humidity">Humidity: ' + (data.daily[i].humidity) + '</div>';
+			//
+            //         //add wind
+			// 		html += '<div class="wind">Wind: ' + data.daily[i].wind_speed + 'mph '
+			// 			+ windCardinalDirection(data.daily[i].wind_deg) + '</div>';
+			// 		//add pressure
+            //         html += '<div class="pressure">Pressure: ' + (data.daily[i].humidity) + ' millibars</div>';
+			// 		//close dayCard div
+            //         html += '</div>';
+			//
+			// 	}
+            //     $('#five-day-weather-card-box').html(html);
+            //     //TODO: Populate Cards with data
+			//
+            // }).fail(function(error) {
+            //     console.log(error);
+            // });
         });
 	});
 
