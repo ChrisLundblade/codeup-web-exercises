@@ -55,7 +55,7 @@
         map.easeTo({
 			center: [longitude,latitude],
 			duration: 2000
-		})
+		});
         longitude = longitudeCorrection(longitude);
         $.get('https://api.openweathermap.org/data/2.5/onecall', {
             appid: OPEN_WEATHER_APP_ID,
@@ -100,7 +100,7 @@
 	//declaring map
     var map = new mapboxgl.Map({
         container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v9',
+        style: 'mapbox://styles/mapbox/satellite-streets-v11', //this style sometimes displays poorly but I just love this view
         zoom: 10
     });
     //declared marker so there's just one
