@@ -47,12 +47,15 @@
 	}
 	function displayLocationName(longitude, latitude){
 	    reverseGeocode({lng: longitude, lat: latitude}, MAPBOX_API_TOKEN).then(function (result){
-            console.log(result);
-            $('#location').html(result);
+            $('#location').html('<strong>' + result + '</strong>');
 		});
 	}
     function getAndDisplayWeatherData(longitude, latitude){
-        map.setCenter({lng: longitude, lat: latitude});
+        //map.setCenter({lng: longitude, lat: latitude});
+        map.easeTo({
+			center: [longitude,latitude],
+			duration: 2000
+		})
         longitude = longitudeCorrection(longitude);
         $.get('https://api.openweathermap.org/data/2.5/onecall', {
             appid: OPEN_WEATHER_APP_ID,
@@ -104,7 +107,7 @@
     var marker = new mapboxgl.Marker({
         color: "#007bff",
         draggable: true
-    })
+    });
     map.on('click', function (e){
         //console.log(e)
         marker.setLngLat([e.lngLat.lng, e.lngLat.lat]);
@@ -114,7 +117,7 @@
 	});
     marker.on('dragend',function (e){
         console.log(e.target._lngLat);
-        displayLocationName(e.lngLat.lng, e.lngLat.lat);
+        displayLocationName(e.target._lngLat.lng, e.target._lngLat.lat);
         getAndDisplayWeatherData(e.target._lngLat.lng, e.target._lngLat.lat);
 	});
 
