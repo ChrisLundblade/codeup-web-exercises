@@ -54,6 +54,8 @@
         //map.setCenter({lng: longitude, lat: latitude});
         map.easeTo({
 			center: [longitude,latitude],
+			pitch: 0,
+			bearing: 0,
 			duration: 2000
 		});
         longitude = longitudeCorrection(longitude);
