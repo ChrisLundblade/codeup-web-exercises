@@ -7,64 +7,7 @@
 	<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
 	<script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
 	<script src="js/keys.js"></script>
-	<style>
-        body { margin: 0; padding: 0; }
-        #map { position: absolute; width: 100%; height: 40rem; }
-		#top-bar{
-			display: flex;
-			align-items: center;
-			background-color: dodgerblue;
-			color: white;
-			font-family: sans-serif;
-			font-size: 2rem;
-			height: 3rem;
-			padding-left: 1rem;
-		}
-		#search-container{
-			display: flex;
-			justify-content: start;
-			align-items: center;
-			height: 3rem;
-			padding-left: 1rem;
-		}
-		#five-day-weather-card-box{
-			height: 15rem;
-			display: flex;
-			justify-content: space-around;
-			align-items: center;
-		}
-		img{
-			display: block;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		.weather-card{
-
-			width: 10rem;
-			height: 90%;
-            border: 1px solid lightgrey;
-			border-radius: 1rem;
-		}
-		.date{
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			background-color: lightgray;
-			border-top-left-radius: 1rem;
-			border-top-right-radius: 1rem;
-			height: 2rem;
-
-		}
-		.temp{
-
-		}
-		.weather-icon{
-			margin: auto;
-		}
-		.weather{
-
-		}
-	</style>
+	<link rel="stylesheet" href="css/weather_map.css">
 </head>
 <body>
 	<header id="top-bar">Weather App</header>
@@ -74,6 +17,9 @@
 			<input type="text" id="user-location-input">
 			<button id="location-search">Find</button>
 		</form>
+		<div id="location">
+
+		</div>
 	</div>
 	<div id="five-day-weather-card-box">
 
@@ -99,6 +45,12 @@
         }
         return lon;
 	}
+	function displayLocationName(longitude, latitude){
+	    reverseGeocode({lng: longitude, lat: latitude}, MAPBOX_API_TOKEN).then(function (result){
+            console.log(result);
+            $('#location').html(result);
+		});
+	}
     function getAndDisplayWeatherData(longitude, latitude){
         map.setCenter({lng: longitude, lat: latitude});
         longitude = longitudeCorrection(longitude);
@@ -119,17 +71,17 @@
                 //adds date div
                 html += '<div class="date">' + (date.getFullYear() + "-"+ (date.getMonth()+1)+ '-' +date.getDate()) + '</div>'
                 //adds temperature div
-                html += '<div class="temp">' + (data.daily[i].temp.min + '/' + data.daily[i].temp.max) + ' Fahrenheit</div>'
+                html += '<div class="temp"><strong>' + (data.daily[i].temp.min + '</strong>/<strong>' + data.daily[i].temp.max) + ' °F</strong></div>'
                 //TODO: Get weather image in the weather div
                 //Adding weather description
-                html += '<div class="weather">' +'<img src="img/'+(data.daily[i].weather[0].icon) +'.png"  width="40" height="40" alt=""><br>' + 'Weather: ' + (data.daily[i].weather[0].description) + '</div>';
+                html += '<div class="weather">' +'<img src="img/'+(data.daily[i].weather[0].icon) +'.png"  width="40" height="40" alt="">' + 'Weather: <strong>' + (data.daily[i].weather[0].description) + '</strong></div><hr>';
                 //adds humidity div
-                html += '<div class="humidity">Humidity: ' + (data.daily[i].humidity) + '</div>';
+                html += '<div class="humidity">Humidity: ' + ' <strong> ' + (data.daily[i].humidity) + '</strong></div><hr>';
                 //add wind
-                html += '<div class="wind">Wind: ' + data.daily[i].wind_speed + 'mph '
-                    + windCardinalDirection(data.daily[i].wind_deg) + '</div>';
+                html += '<div class="wind">Wind: ' + '<strong> ' + data.daily[i].wind_speed + 'mph '
+                    + windCardinalDirection(data.daily[i].wind_deg) + '</strong></div><hr>';
                 //add pressure
-                html += '<div class="pressure">Pressure: ' + (data.daily[i].humidity) + ' millibars</div>';
+                html += '<div class="pressure">Pressure: ' + '<strong> ' + (data.daily[i].humidity) + ' millibars</strong></div>';
                 //close dayCard div
                 html += '</div>';
 
@@ -157,10 +109,12 @@
         //console.log(e)
         marker.setLngLat([e.lngLat.lng, e.lngLat.lat]);
         marker.addTo(map);
+        displayLocationName(e.lngLat.lng, e.lngLat.lat);
 		getAndDisplayWeatherData(e.lngLat.lng, e.lngLat.lat);
 	});
     marker.on('dragend',function (e){
         console.log(e.target._lngLat);
+        displayLocationName(e.lngLat.lng, e.lngLat.lat);
         getAndDisplayWeatherData(e.target._lngLat.lng, e.target._lngLat.lat);
 	});
 
@@ -264,6 +218,8 @@
 	$('#location-search').on('click', function (e){
 	    e.preventDefault();
         geocode(($('#user-location-input').val()), MAPBOX_API_TOKEN).then(function (result){
+            displayLocationName(result[0], result[1]);
+            marker.setLngLat([result[0],result[1]]);
             getAndDisplayWeatherData(result[0],result[1]);
             // map.setCenter({lng: result[0], lat: result[1]});
             // $.get('https://api.openweathermap.org/data/2.5/onecall', {
