@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Open Weather</title>
+	<script src="js/keys.js"></script>
+
+</head>
+<body>
+
+	<script src="js/jquery-3.6.0.min.js"></script>
+	<script>
+		$.get('https://api.openweathermap.org/data/2.5/onecall', {
+			appid: OPEN_WEATHER_APP_ID,
+			lat: 29.4252,
+			lon: -98.4916,
+			units: 'imperial'
+		}).done(function(data) {
+			console.log(data);
+			console.log(data.current.clouds);
+		}).fail(function(error) {
+			console.log(error);
+		});
+	</script>
+
+</body>
+</html>

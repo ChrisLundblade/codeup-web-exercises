@@ -89,7 +89,7 @@ section:nth-of-type(3) {
 section:nth-of-type(3) h3 {
     /* enter needed declarations here */
     flex-direction: row;
-    margin-right: auto;
+    margin-right: auto; /*I found this solution to getting the text left aligned on stack overflow*/
     align-self: center;
 
 

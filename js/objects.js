@@ -49,14 +49,30 @@ var person = {
         {name: 'Ryan', amount: 250},
         {name: 'George', amount: 320}
     ];
-    shoppers.forEach (function(shopper){
-    if (shopper.amount < 200){
-        console.log(shopper.name + " is spending $" + shopper.amount +", not receiving a discount, and needs to spend $" + (200.01-shopper.amount).toFixed(2) + " more  to earn a discount.");
-    } else {
-        console.log(shopper.name + " is buying $" + shopper.amount + " of merchandise which is being discounted down to $" + (shopper.amount*0.88) + " saving $" + (shopper.amount*0.12));
-    }
+    // shoppers.forEach (function(shopper){
+    // if (shopper.amount < 200){
+    //     console.log(shopper.name + " is spending $" + shopper.amount +", not receiving a discount, and needs to spend $" + (200.01-shopper.amount).toFixed(2) + " more  to earn a discount.");
+    // } else {
+    //     console.log(shopper.name + " is buying $" + shopper.amount + " of merchandise which is being discounted down to $" + (shopper.amount*0.88) + " saving $" + (shopper.amount*0.12));
+    // }
+    //
+    // } )
 
-    } )
+    //Justin's version    not working because I didn't have his functions and stuff
+    // function calculateDiscount(amount, discountThreshold, discountPercentage){
+    //     return
+    // }
+    // shoppers.forEach(function(shopper){
+    //     var discountedAmount = calculateDiscount(shopper.amount, discountThreshold, 0.12);
+    //     var output = shopper.name + ' is purchasing ' + shopper.amount +
+    //         ' of stuff. He will get ' + discountedAmount +
+    //         ' off the purchase and pay ' +
+    //         (shopper.amount - discountedAmount) + '.';
+    //     console.log(output);
+    // })
+
+
+
 
     /** TODO:
      * Create an array of objects that represent books and store it in a
@@ -141,7 +157,6 @@ var person = {
         console.log("Book # " + (index+1));
         console.log("Title: " + book.title);
         console.log("Author: "+ book.author.firstName + " " + book.author.lastName);
-        index++;
     }
 
     booksArray.forEach(

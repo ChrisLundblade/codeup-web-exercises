@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Frontend Warmup</title>
+
+</head>
+<body>
+	<button id="hide-btn">Hide Paragraph</button>
+	<p id="paragraph">This paragraph will disappear when the button is clicked</p>
+	<script>
+        'use strict';
+        (function() {
+            document.getElementById('hide-btn').addEventListener("click",function (){
+                if(document.getElementById('paragraph').style.visibility == "hidden"){
+                    document.getElementById('paragraph').style.visibility = "visible";
+				} else {
+                    document.getElementById('paragraph').style.visibility = "hidden";
+				}
+            })
+        })();
+	</script>
+</body>
+</html>

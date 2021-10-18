@@ -41,6 +41,7 @@ function randomNumbersOddEven() {
 //         console.log(string);
 //     }
 // }
+// after writing this one I realized that I didn't need 2 loops anymore
 // function stringConcatLoop(){
 //     for (let i=1; i <=9; i++){
 //         let string = '';

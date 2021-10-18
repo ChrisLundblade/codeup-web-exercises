@@ -91,20 +91,30 @@ console.log(allInstructorNames);
 
 // Use .reduce to get the unique list of languages from the list of users.
 
+// let languages = users.reduce((accumulator, currentUser, index, array) => {
+//     if (index === 0) {
+//         currentUser.languages.forEach(language => {
+//             accumulator += `${language} `;
+//         });
+//         console.log(accumulator);
+//         return accumulator;
+//     } else {
+//     currentUser.languages.forEach(language => {
+//         if (!accumulator.includes(language)) {
+//             accumulator += `${language} `;
+//         }
+//     });
+//         return accumulator;
+//     }
+// }, '');
 let languages = users.reduce((accumulator, currentUser, index, array) => {
-    if (index === 0) {
+
         currentUser.languages.forEach(language => {
-            accumulator += `${language} `;
+            if (!accumulator.includes(language)) {
+                accumulator += `${language} `;
+            }
         });
-        console.log(accumulator);
         return accumulator;
-    } else {
-    currentUser.languages.forEach(language => {
-        if (!accumulator.includes(language)) {
-            accumulator += `${language} `;
-        }
-    });
-        return accumulator;
-    }
+
 }, '');
 console.log(languages);
